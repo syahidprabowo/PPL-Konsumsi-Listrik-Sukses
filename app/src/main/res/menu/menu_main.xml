@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context="semanticalwaysauthentic.co.listbarang.MainActivity">
+<item
+    android:id="@+id/tambah_barang"
+    android:orderInCategory="100"
+    android:title="@string/tambah_barang"
+    app:showAsAction="always"
+    android:icon="@drawable/ic_tambah"
+    />
+</menu>
