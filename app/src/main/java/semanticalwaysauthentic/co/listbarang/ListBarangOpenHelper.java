@@ -111,8 +111,6 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
         return newId;
     }
 
-
-
     public long count() {
         if (mReadableDB == null) {
             mReadableDB = getReadableDatabase();
@@ -134,7 +132,22 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
         return deleted;
     }
 
-
-
+    public int update(int id, String word) {
+        int mNumberOfRowsUpdated = -1;
+        try {
+            if (mWritableDB == null) {
+                mWritableDB = getWritableDatabase();
+            }
+            ContentValues values = new ContentValues();
+            values.put(KEY_WORD, word);
+            mNumberOfRowsUpdated = mWritableDB.update(WORD_LIST_TABLE,
+                    values,
+                    KEY_ID + " = ?",
+                    new String[]{String.valueOf(id)});
+        } catch (Exception e) {
+            Log.d (TAG, "UPDATE EXCEPTION! " + e.getMessage());
+        }
+        return mNumberOfRowsUpdated;
+    }
 
 }

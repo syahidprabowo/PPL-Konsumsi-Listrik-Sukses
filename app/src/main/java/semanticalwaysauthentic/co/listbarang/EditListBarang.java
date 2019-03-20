@@ -50,4 +50,6 @@ public class EditListBarang extends AppCompatActivity {
         setResult(RESULT_OK, replyIntent);
         finish();
     }
+
+
 }

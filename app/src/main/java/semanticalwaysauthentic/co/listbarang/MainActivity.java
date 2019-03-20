@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
                     if (id == WORD_ADD) {
                         mDB.insert(word);
                     }
+                    else if (id >= 0) {
+                        mDB.update(id, word);
+                    }
                 // Update the UI
                     mAdapter.notifyDataSetChanged();
                 } else {

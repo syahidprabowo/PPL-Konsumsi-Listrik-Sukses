@@ -1,6 +1,8 @@
 package semanticalwaysauthentic.co.listbarang;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,19 +55,35 @@ public class ListBarangAdapter extends RecyclerView.Adapter<ListBarangAdapter.Wo
         holder.wordItemView.setText(current.getWord());
         // Keep a reference to the view holder for the click listener
         final WordViewHolder h = holder; // needs to be final for use in callback
-        // Attach a click listener to the DELETE button.
 
+        // Attach a click listener to the DELETE button.
         holder.delete_button.setOnClickListener(new MyButtonOnClickListener(
                 current.getId(), null)  {
-
-
             @Override
             public void onClick(View v ) {
                 // You have to get the position like this, you can't hold a reference
                 Log.d (TAG + "onClick", "VHPos " + h.getAdapterPosition() + " ID " + id);
                 int deleted = mDB.delete(id);
-                if (deleted >= 0)
+                int updated = mDB.update(id,word);
+                if (deleted >= 0) {
                     notifyItemRemoved(h.getAdapterPosition());
+                }
+            }
+        });
+
+        // Attach a click listener to the EDIT button.
+        holder.edit_button.setOnClickListener(new MyButtonOnClickListener(
+                current.getId(), current.getWord()) {
+            @Override
+            public void onClick(View v) {
+                String EXTRA_POSITION = "POSITION";
+                Intent intent = new Intent(mContext, EditListBarang.class);
+                intent.putExtra(EXTRA_ID, id);
+                intent.putExtra(EXTRA_POSITION, h.getAdapterPosition());
+                intent.putExtra(EXTRA_WORD, word);
+                // Start an empty edit activity.
+                ((Activity) mContext).startActivityForResult(
+                        intent, MainActivity.WORD_EDIT);
             }
         });
 
