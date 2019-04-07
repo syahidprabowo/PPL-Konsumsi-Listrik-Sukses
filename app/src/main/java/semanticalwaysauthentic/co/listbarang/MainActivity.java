@@ -81,14 +81,16 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == WORD_EDIT) {
             if (resultCode == RESULT_OK) {
                 String word = data.getStringExtra(EditListBarang.EXTRA_REPLY);
+                int watt = Integer.valueOf(data.getStringExtra(EditListBarang.EXTRA_REPLY_WATT));
+                int durasi = Integer.valueOf(data.getStringExtra(EditListBarang.EXTRA_REPLY_DURASI));
                 // Update the database
                 if (!TextUtils.isEmpty(word)) {
                     int id = data.getIntExtra(ListBarangAdapter.EXTRA_ID, -99);
                     if (id == WORD_ADD) {
-                        mDB.insert(word);
+                        mDB.insert(word, watt, durasi);
                     }
                     else if (id >= 0) {
-                        mDB.update(id, word);
+                        mDB.update(id, word, watt, durasi);
                     }
                 // Update the UI
                     mAdapter.notifyDataSetChanged();
