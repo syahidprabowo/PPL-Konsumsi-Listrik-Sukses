@@ -15,13 +15,19 @@ import android.widget.TextView;
 public class ListBarangAdapter extends RecyclerView.Adapter<ListBarangAdapter.WordViewHolder>{
 
     class WordViewHolder extends RecyclerView.ViewHolder {
-        public final TextView wordItemView;
+        public final TextView idItemView;
+        public final TextView barangItemView;
+        public final TextView wattItemView;
+        public final TextView durasiItemView;
         Button delete_button;
         Button edit_button;
 
         public WordViewHolder(View itemView) {
             super(itemView);
-            wordItemView = (TextView) itemView.findViewById(R.id.word);
+            idItemView = (TextView) itemView.findViewById(R.id.id);
+            barangItemView = (TextView) itemView.findViewById(R.id.word);
+            wattItemView = (TextView) itemView.findViewById(R.id.v_watt);
+            durasiItemView = (TextView) itemView.findViewById(R.id.v_durasi);
             delete_button = (Button)itemView.findViewById(R.id.delete_button);
             edit_button = (Button)itemView.findViewById(R.id.edit_button);
         }
@@ -31,6 +37,8 @@ public class ListBarangAdapter extends RecyclerView.Adapter<ListBarangAdapter.Wo
 
     public static final String EXTRA_ID = "ID";
     public static final String EXTRA_WORD = "WORD";
+    public static final String EXTRA_WATT = "WATT";
+    public static final String EXTRA_DURASI = "DURASI";
 
     private final LayoutInflater mInflater;
     Context mContext;
@@ -45,26 +53,29 @@ public class ListBarangAdapter extends RecyclerView.Adapter<ListBarangAdapter.Wo
 
     @Override
     public WordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.content_main, parent, false);
+        View itemView = mInflater.inflate(R.layout.itembarang, parent, false);
         return new WordViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(WordViewHolder holder, int position) {
         itembarang current = mDB.query(position);
-        holder.wordItemView.setText(current.getWord());
+        holder.idItemView.setText(current.getSid()+". ");
+        holder.barangItemView.setText(current.getWord());
+        holder.wattItemView.setText(current.getSWatt());
+        holder.durasiItemView.setText(current.getSDurasi());
         // Keep a reference to the view holder for the click listener
         final WordViewHolder h = holder; // needs to be final for use in callback
 
         // Attach a click listener to the DELETE button.
         holder.delete_button.setOnClickListener(new MyButtonOnClickListener(
-                current.getId(), null)  {
+                current.getId(), null, current.getWatt(), current.getDurasi())  {
             @Override
             public void onClick(View v ) {
                 // You have to get the position like this, you can't hold a reference
                 Log.d (TAG + "onClick", "VHPos " + h.getAdapterPosition() + " ID " + id);
                 int deleted = mDB.delete(id);
-                int updated = mDB.update(id,word);
+                int updated = mDB.update(id,word, watt, durasi);
                 if (deleted >= 0) {
                     notifyItemRemoved(h.getAdapterPosition());
                 }
@@ -73,7 +84,7 @@ public class ListBarangAdapter extends RecyclerView.Adapter<ListBarangAdapter.Wo
 
         // Attach a click listener to the EDIT button.
         holder.edit_button.setOnClickListener(new MyButtonOnClickListener(
-                current.getId(), current.getWord()) {
+                current.getId(), current.getWord(), current.getWatt(), current.getDurasi()) {
             @Override
             public void onClick(View v) {
                 String EXTRA_POSITION = "POSITION";
@@ -81,6 +92,8 @@ public class ListBarangAdapter extends RecyclerView.Adapter<ListBarangAdapter.Wo
                 intent.putExtra(EXTRA_ID, id);
                 intent.putExtra(EXTRA_POSITION, h.getAdapterPosition());
                 intent.putExtra(EXTRA_WORD, word);
+                intent.putExtra(EXTRA_WATT, Swatt);
+                intent.putExtra(EXTRA_DURASI, Sdursai);
                 // Start an empty edit activity.
                 ((Activity) mContext).startActivityForResult(
                         intent, MainActivity.WORD_EDIT);
@@ -88,6 +101,8 @@ public class ListBarangAdapter extends RecyclerView.Adapter<ListBarangAdapter.Wo
         });
 
     }
+
+
 
     @Override
     public int getItemCount() {
