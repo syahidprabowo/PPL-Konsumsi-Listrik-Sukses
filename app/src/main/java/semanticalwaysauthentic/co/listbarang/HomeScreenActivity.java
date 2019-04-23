@@ -38,6 +38,17 @@ public class HomeScreenActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        
+        TextView menu4 = (TextView)findViewById(R.id.menu4);
+        menu4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeScreenActivity.this, PilihKwh.class);
+                Toast.makeText(getApplicationContext(), "Anda Memilih : "+ SpinnerLabel + "KWH",
+                        Toast.LENGTH_SHORT).show();
+                startActivity(i);
+            }
+        });
     }
 }
 
