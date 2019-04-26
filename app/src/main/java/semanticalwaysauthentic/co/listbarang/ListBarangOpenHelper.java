@@ -23,7 +23,6 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String TABEL_BARANG = "ListBarang";
     private static final String TABEL_KWH = "KWH";
-    private static final String TABEL_X = "TAMPUNG";
     private static final String DATABASE_NAME = "KonsumsiListrik";
     // Column names...
     public static final String KEY_ID = "_id";
@@ -35,9 +34,6 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
     public static final String ID_KWH = "id_kwh";
     public static final String JUMLAH = "total";
     public static final String HARGA = "harga";
-    //TABEL TAMPUNG
-    public static final String ID_TAM = "id_tam";
-    public static final String TAM = "tampung";
     // ... and a string array of columns.
     private static final String[] COLUMNS = { KEY_ID, KEY_WORD, KEY_WATT,KEY_DURASI, KEY_BIAYA};
 
@@ -142,20 +138,6 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
             db.close();
 
     }
-
-    public boolean CekEmpty(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        boolean empty = true;
-        Cursor cur = db.rawQuery("SELECT COUNT(*) FROM "+TABEL_BARANG, null);
-        if (cur != null && cur.moveToFirst()) {
-            empty = (cur.getInt (0) == 0);
-        }
-        cur.close();
-
-        return empty;
-    }
-
-
 
     private void IsiTabelKWH(SQLiteDatabase db){
         Integer[] total_kwh = {900,1300};
@@ -311,6 +293,24 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return labels;
+    }
+
+    public double gettotalharga(){
+        double total = 0;
+        double hitung = 0;
+
+        String query = "SELECT "+KEY_BIAYA+" FROM "+ TABEL_BARANG;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            do {
+                hitung = cursor.getDouble(cursor.getColumnIndex(KEY_BIAYA));
+                total = total + hitung;
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return total;
     }
 
 
