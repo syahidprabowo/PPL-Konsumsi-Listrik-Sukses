@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
+
+import java.text.DecimalFormat;
 
 public class ListHargaBarang extends AppCompatActivity {
 
@@ -15,6 +18,8 @@ public class ListHargaBarang extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ListHargaAdapter mAdapter;
 
+    double totalharga;
+
 
 
     private ListBarangOpenHelper mDB;
@@ -25,6 +30,10 @@ public class ListHargaBarang extends AppCompatActivity {
         setContentView(R.layout.activity_list_harga_barang);
 
         mDB = new ListBarangOpenHelper(this);
+        DecimalFormat df = new DecimalFormat("#.##");
+        totalharga = mDB.gettotalharga();
+        TextView totalView = (TextView) findViewById(R.id.hargatotal);
+        totalView.setText("TOTAL HARGA = Rp. "+String.valueOf(df.format(totalharga)));
 
         // Create recycler view.
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview2);
@@ -34,5 +43,7 @@ public class ListHargaBarang extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         // Give the recycler view a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
 }
