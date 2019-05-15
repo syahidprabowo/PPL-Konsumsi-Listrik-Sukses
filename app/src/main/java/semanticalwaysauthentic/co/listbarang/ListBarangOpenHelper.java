@@ -1,9 +1,7 @@
 package semanticalwaysauthentic.co.listbarang;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,7 +11,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import static semanticalwaysauthentic.co.listbarang.PilihKwh.SpinnerLabel;
 import static semanticalwaysauthentic.co.listbarang.PilihKwh.hargafix;
 
 public class ListBarangOpenHelper extends SQLiteOpenHelper {
@@ -23,6 +20,7 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String TABEL_BARANG = "ListBarang";
     private static final String TABEL_KWH = "KWH";
+    private static final String TABEL_X = "TAMPUNG";
     private static final String DATABASE_NAME = "KonsumsiListrik";
     // Column names...
     public static final String KEY_ID = "_id";
@@ -30,10 +28,14 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
     public static final String KEY_WATT = "watt";
     public static final String KEY_DURASI = "durasi";
     public static final String KEY_BIAYA = "biaya";
+    public static final String KEY_JUMLAH = "jumlah";
     //TABEL KWH
     public static final String ID_KWH = "id_kwh";
     public static final String JUMLAH = "total";
     public static final String HARGA = "harga";
+    //TABEL TAMPUNG
+    public static final String ID_TAM = "id_tam";
+    public static final String TAM = "tampung";
     // ... and a string array of columns.
     private static final String[] COLUMNS = { KEY_ID, KEY_WORD, KEY_WATT,KEY_DURASI, KEY_BIAYA};
 
@@ -56,24 +58,19 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
                     KEY_ID + " INTEGER PRIMARY KEY, " +
 // id will auto-increment if no value passed
                     KEY_WORD + " TEXT, "+ KEY_WATT + " INTEGER , "+ KEY_DURASI +
-                    " INTEGER, " + KEY_BIAYA + " DOUBLE );";
+                    " INTEGER, "+ KEY_JUMLAH + " INTEGER, " + KEY_BIAYA + " DOUBLE );";
 
     private static final String BUAT_TABEL_KWH =
             "CREATE TABLE " + TABEL_KWH + " ( " +
                     ID_KWH + " INTEGER PRIMARY KEY, " +
                     JUMLAH + " INTEGER, " + HARGA + " INTEGER);";
 
-    private static final String BUAT_TABEL_TAMPUNG =
-            "CREATE TABLE "+ TABEL_X + " ( " +
-                    ID_TAM + " INTEGER PRIMARY KEY, " +
-                    TAM + " INTEGER );";
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(BUAT_TABEL_BARANG);
         db.execSQL(BUAT_TABEL_KWH);
-        db.execSQL(BUAT_TABEL_TAMPUNG);
 
         IsiTabelKWH(db);
         IsiTabelBarang(db);
@@ -99,9 +96,11 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
                 "Lampu TL LED", "Komputer PC", "Proyektor",
                 "Kipas Angin"};
 
-        Integer[] watt_barang = {840, 1170, 1920, 16, 140, 205, 103};
+        Integer[] watt_barang = {1170, 840, 1920, 16, 140, 205, 103};
 
-        Integer[] durasi = {2, 1, 6, 12, 2, 5, 7};
+        Integer[] durasi = {2, 1, 6, 10, 2, 5, 7};
+
+        Integer[] jumlah = {1, 1, 1, 1, 1, 1, 1};
 
         for (int i=0; i < nama_barang.length; i++) {
             // Put column/value pairs into the container.
@@ -109,6 +108,7 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
             values.put(KEY_WORD, nama_barang[i]);
             values.put(KEY_WATT, watt_barang[i]);
             values.put(KEY_DURASI, durasi[i]);
+            values.put(KEY_JUMLAH, jumlah[i]);
             values.put(KEY_BIAYA, 0);
             db.insert(TABEL_BARANG, null, values);
         }
@@ -126,8 +126,9 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
                     int id = cursor.getInt(cursor.getColumnIndex("_id"));
                     int watt = cursor.getInt(cursor.getColumnIndex("watt"));
                     int durasi = cursor.getInt(cursor.getColumnIndex("durasi"));
+                    int jumlah = cursor.getInt(cursor.getColumnIndex("jumlah"));
                     double harga = cursor.getDouble(cursor.getColumnIndex("biaya"));
-                    double newharga = HitungBiaya(watt, durasi);
+                    double newharga = HitungBiaya(watt, durasi, jumlah);
                     String upquery = "UPDATE "+TABEL_BARANG+" SET biaya = "+newharga+" WHERE _id = "+id;
                     db.execSQL(upquery);
 
@@ -140,9 +141,9 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
     }
 
     private void IsiTabelKWH(SQLiteDatabase db){
-        Integer[] total_kwh = {900,1300};
+        Integer[] total_kwh = {450, 900, 1300, 2200, 3500, 6600, 14000, 200000, 30000000};
 
-        Integer[] harga = {1632, 2500};
+        Integer[] harga = {567, 600, 1049, 1076, 1112, 1352, 1057, 864, 723};
 
         for (int i=0; i < total_kwh.length; i++){
             values2.put(JUMLAH, total_kwh[i]);
@@ -184,6 +185,7 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
             entry.setWatt(cursor.getInt(cursor.getColumnIndex(KEY_WATT)));
             entry.setmDurasi(cursor.getInt(cursor.getColumnIndex(KEY_DURASI)));
             entry.setmBiaya(cursor.getInt(cursor.getColumnIndex(KEY_BIAYA)));
+            entry.setmJumlah(cursor.getInt(cursor.getColumnIndex(KEY_JUMLAH)));
 
         }catch (Exception e){
 
@@ -200,13 +202,14 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
 
 
 
-    public long insert(String barang, int watt, int durasi){
+    public long insert(String barang, int watt, int durasi, int jumlah){
         long newId = 0;
         ContentValues values = new ContentValues();
         values.put(KEY_WORD, barang);
         values.put(KEY_WATT, watt);
         values.put(KEY_DURASI, durasi);
-        values.put(KEY_BIAYA, HitungBiaya(durasi, watt));
+        values.put(KEY_JUMLAH, jumlah);
+        values.put(KEY_BIAYA, 0);
         try{
             if (mWritableDB == null){
                 mWritableDB = getWritableDatabase();
@@ -242,7 +245,7 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
         return deleted;
     }
 
-    public int update(int id, String word, int watt, int durasi) {
+    public int update(int id, String word, int watt, int durasi, int jumlah) {
         int mNumberOfRowsUpdated = -1;
         try {
             if (mWritableDB == null) {
@@ -252,7 +255,12 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
             values.put(KEY_WORD, word);
             values.put(KEY_WATT, watt);
             values.put(KEY_DURASI, durasi);
-            values.put(KEY_BIAYA, HitungBiaya(durasi, watt));
+            values.put(KEY_JUMLAH, jumlah);
+            if (hargafixxx == null){
+                values.put(KEY_BIAYA, 0);
+            }else {
+                values.put(KEY_BIAYA, HitungBiaya(durasi, watt, jumlah));
+            }
             mNumberOfRowsUpdated = mWritableDB.update(TABEL_BARANG,
                     values,
                     KEY_ID + " = ?",
@@ -265,12 +273,12 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
 
 
 
-    private double HitungBiaya(int durasi, int watt){
+    private double HitungBiaya(int durasi, int watt, int jumlah){
 
         int harga = hargafixxx;
         double total;
 
-        total = ((watt*0.001) * harga) * durasi;
+        total =(((watt*0.001) * harga) * durasi) * jumlah;
 
         return total;
 
@@ -296,8 +304,9 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
     }
 
     public double gettotalharga(){
-        double total = 0;
+        double perhari = 0;
         double hitung = 0;
+        double perbulan = 0;
 
         String query = "SELECT "+KEY_BIAYA+" FROM "+ TABEL_BARANG;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -305,13 +314,33 @@ public class ListBarangOpenHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()){
             do {
                 hitung = cursor.getDouble(cursor.getColumnIndex(KEY_BIAYA));
-                total = total + hitung;
+                perhari = perhari + hitung;
             }while (cursor.moveToNext());
         }
+
+        perbulan = perhari * 30;
+
         cursor.close();
         db.close();
-        return total;
+        return perbulan;
     }
 
+    public int getkonsumsi(){
+        int konsumsi = 0;
+        String query = "SELECT "+KEY_WATT+" FROM "+ TABEL_BARANG;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            do {
+                konsumsi = konsumsi + cursor.getInt(cursor.getColumnIndex(KEY_WATT));;
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return konsumsi;
+    }
 
 }

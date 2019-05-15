@@ -8,4 +8,14 @@
     <string name="button_delete">Delete</string>
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="tambah_barang">Tambah Barang</string>
+    <string name="alert_title" > Hapus Data </string>
+    <string name="alert_message" > Apakah anda yakin ingin menghapus data ? </string>
+    <string name="Ya" > Ya </string>
+    <string name="OK" > Data Berhasil Dihapus </string>
+    <string name="Tidak" > Tidak </string>
+    <string name="Cancel" > Batal </string>
+    <string name="list_barang">List Barang</string>
+    <string name="harga_listrik">Harga Listrik</string>
+    <string name="cek_voltase">Cek Voltase</string>
+    <string name="ganti_kwh">Ganti kwh</string>
 </resources>

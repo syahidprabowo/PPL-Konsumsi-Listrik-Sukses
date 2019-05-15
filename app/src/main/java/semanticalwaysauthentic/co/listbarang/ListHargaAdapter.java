@@ -11,21 +11,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class ListHargaAdapter extends RecyclerView.Adapter<ListHargaAdapter.WordViewHolder2> {
 
     class WordViewHolder2 extends RecyclerView.ViewHolder{
-        public final TextView idItemView;
         public final TextView barangItemView;
         public final TextView wattItemView;
         public final TextView durasiItemView;
         public final TextView biayaItemView;
+        public final TextView jumlahItemView;
 
         public WordViewHolder2(View itemView) {
             super(itemView);
-            idItemView = (TextView) itemView.findViewById(R.id.id);
             barangItemView = (TextView) itemView.findViewById(R.id.word);
             wattItemView = (TextView) itemView.findViewById(R.id.v_watt);
             durasiItemView = (TextView) itemView.findViewById(R.id.v_durasi);
+            jumlahItemView = (TextView) itemView.findViewById(R.id.jumlah_barang);
             biayaItemView = (TextView) itemView.findViewById(R.id.v_biaya);
 
         }
@@ -55,10 +57,10 @@ public class ListHargaAdapter extends RecyclerView.Adapter<ListHargaAdapter.Word
     @Override
     public void onBindViewHolder(WordViewHolder2 holder2, int position) {
         itembarang current = mDB.query(position);
-        holder2.idItemView.setText(current.getSid()+". ");
         holder2.barangItemView.setText(current.getWord());
         holder2.wattItemView.setText(current.getSWatt());
         holder2.durasiItemView.setText(current.getSDurasi());
+        holder2.jumlahItemView.setText(current.getSjumlah());
         holder2.biayaItemView.setText(current.getBiaya());
 
     }

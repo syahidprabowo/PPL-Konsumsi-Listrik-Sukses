@@ -7,19 +7,23 @@
     tools:context=".CekVoltase">
 
     <TextView
+        android:id="@+id/statusvoltase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Halaman Cek Voltase"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Listrik Anda Masih Stabil"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:layout_margin="50dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit Barang"
-        android:id="@+id/button"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
+        android:text="Besar Kwh Anda dengan List pemakaian barang elektronik saat ini : "/>
 </RelativeLayout>

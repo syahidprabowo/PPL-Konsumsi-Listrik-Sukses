@@ -1,17 +1,26 @@
 package semanticalwaysauthentic.co.listbarang;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static semanticalwaysauthentic.co.listbarang.ListBarangOpenHelper.hargafixxx;
+import static semanticalwaysauthentic.co.listbarang.PilihKwh.SpinnerLabel;
+
 public class HomeScreenActivity extends AppCompatActivity {
 
+
+    String ex;
+    private ListBarangOpenHelper mDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+        mDB = new ListBarangOpenHelper(this);
         TextView menu1 = (TextView)findViewById(R.id.menu1);
         menu1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,8 +34,16 @@ public class HomeScreenActivity extends AppCompatActivity {
         menu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(HomeScreenActivity.this, ListHargaBarang.class);
-                startActivity(i);
+
+                if (hargafixxx == null){
+                    Toast.makeText(getApplicationContext(), "Pilih KWH Terlebih Dahulu.",
+                            Toast.LENGTH_SHORT).show();
+                }else{
+                    mDB.UpdateIsiTabelBarang();
+                    Intent i = new Intent(HomeScreenActivity.this, ListHargaBarang.class);
+                    startActivity(i);
+                }
+
             }
         });
 
@@ -38,7 +55,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        
+
         TextView menu4 = (TextView)findViewById(R.id.menu4);
         menu4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +66,8 @@ public class HomeScreenActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
     }
 }
 

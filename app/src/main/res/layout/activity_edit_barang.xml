@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editbarang"
-        android:text="nama barang"
+        android:text="Nama Barang"
         android:textSize="20sp"
         android:layout_marginTop="40dp"/>
 
@@ -81,15 +81,40 @@
         android:layout_marginLeft="30dp"
         android:layout_toRightOf="@+id/durasi" />
 
+    <TextView
+        android:id="@+id/jumlah_barang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jumlah Barang"
+        android:layout_below="@id/edit_durasi"
+        android:textSize="20dp"
+        android:layout_marginTop="45dp"/>
+
+    <EditText
+        android:id="@+id/edit_jumlah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="phone"
+        android:layout_toEndOf="@+id/namabarang"
+        android:layout_below="@+id/edit_durasi"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/jumlah_barang"
+        />
+
     <Button
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_durasi"
-        android:text="UPDATE"
+        android:layout_below="@+id/jumlah_barang"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:onClick="returnReply"/>
+        android:layout_marginTop="45dp"
+        android:onClick="returnReply"
+        android:background="@drawable/rounded"
+        android:textColor="@android:color/background_light"
+        android:text="UPDATE" />
 
 
 

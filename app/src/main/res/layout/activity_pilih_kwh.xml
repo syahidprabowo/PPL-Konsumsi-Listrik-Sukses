@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PilihKwH">
+    tools:context=".PilihKwh">
 
     <ImageView
         android:layout_width="150dp"
@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/logoawal"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginBottom="-240dp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="6dp">
@@ -32,7 +33,8 @@
             android:layout_marginTop="200dp"
             android:text="Pilih Kapasitas Ampere "
             android:textAlignment="center"
-            android:textSize="22dp" />
+            android:textSize="22dp"
+            tools:ignore="NotSibling" />
 
     </RelativeLayout>
 
@@ -43,19 +45,9 @@
 
         <Spinner
             android:id="@+id/pilih_kwh"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
             android:layout_height="wrap_content"></Spinner>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        tools:layout_editor_absoluteX="139dp"
-        tools:layout_editor_absoluteY="282dp"
-        tools:ignore="MissingConstraints">
     </LinearLayout>
 
     <LinearLayout
@@ -63,14 +55,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="168dp"
+        android:layout_marginBottom="125dp"
         tools:layout_editor_absoluteX="149dp"
         tools:layout_editor_absoluteY="305dp">
 
         <Button
             android:id="@+id/ok"
-            android:layout_width="106dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="OK" />
+            android:text="OK"
+            android:background="@drawable/rounded"
+            android:textColor="@android:color/background_light"/>
+
+
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textAlignment="center"
+        android:text="*Pilih besaran kwh dengan nilai minimal kwh yang ada pada pilihan, misalnya kwh anda 15000 Va maka pilih 14000 Va "/>
 </RelativeLayout>

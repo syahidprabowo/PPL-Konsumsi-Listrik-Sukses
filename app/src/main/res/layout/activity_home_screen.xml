@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#fff"
-            android:background="@color/colorPrimaryDark"
-            android:text="List Barang"
+            android:background="@drawable/rounded"
+            android:text="@string/list_barang"
             android:layout_marginBottom="30dp"/>
 
         <Button
@@ -28,8 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#fff"
-            android:background="@color/colorPrimaryDark"
-            android:text="Harga Listrik"
+            android:background="@drawable/rounded"
+            android:text="@string/harga_listrik"
             android:layout_marginBottom="30dp"/>
 
         <Button
@@ -37,17 +37,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#fff"
-            android:background="@color/colorPrimaryDark"
-            android:text="Cek Voltase"
+            android:background="@drawable/rounded"
+            android:text="@string/cek_voltase"
             android:layout_marginBottom="30dp"/>
 
 
         <Button
             android:id="@+id/menu4"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/colorPrimary"
-            android:text="Ganti kwh"/>
+            android:textColor="#fff"
+            android:background="@drawable/rounded"
+            android:text="@string/ganti_kwh"/>
 
     </LinearLayout>
 

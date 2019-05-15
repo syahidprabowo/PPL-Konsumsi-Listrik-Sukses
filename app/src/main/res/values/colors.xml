@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#DAA521</color>
     <color name="colorAccent">#DAA521</color>
     <color name="buttonLabel">#d3d3d3</color>
+    <color name="ToolBar">#008577</color>
 
 </resources>

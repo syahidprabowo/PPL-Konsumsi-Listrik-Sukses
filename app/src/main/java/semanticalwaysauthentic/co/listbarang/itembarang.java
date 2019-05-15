@@ -7,6 +7,7 @@ public class itembarang {
     private int mWatt;
     private int mDurasi;
     private double mBiaya;
+    private int mJumlah;
 
     public itembarang() {}
 
@@ -32,6 +33,10 @@ public class itembarang {
 
     public String getBiaya(){ return String.valueOf(this.mBiaya);}
 
+    public int getmJumlah(){ return  this.mJumlah;}
+
+    public String getSjumlah(){ return String.valueOf(this.mJumlah);}
+
 
 
     public void setId(int id) {
@@ -47,6 +52,8 @@ public class itembarang {
     public void setmDurasi (int durasi){ this.mDurasi = durasi;}
 
     public void setmBiaya (double biaya){ this.mBiaya = biaya;}
+
+    public void setmJumlah (int jumlah){ this.mJumlah = jumlah;}
 
 
 

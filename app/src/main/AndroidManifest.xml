@@ -9,11 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PilihKwh"></activity>
+        <activity android:name=".PilihKwh">
+
+        </activity>
         <activity android:name=".ListHargaBarang" />
         <activity android:name=".CekVoltase" />
         <activity android:name=".HomeScreenActivity" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".SplashScreenActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

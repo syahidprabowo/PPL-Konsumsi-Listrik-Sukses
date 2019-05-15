@@ -30,10 +30,10 @@ public class ListHargaBarang extends AppCompatActivity {
         setContentView(R.layout.activity_list_harga_barang);
 
         mDB = new ListBarangOpenHelper(this);
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("###,###,###.##");
         totalharga = mDB.gettotalharga();
         TextView totalView = (TextView) findViewById(R.id.hargatotal);
-        totalView.setText("TOTAL HARGA = Rp. "+String.valueOf(df.format(totalharga)));
+        totalView.setText("Rp. "+String.valueOf(df.format(totalharga))+" /bln");
 
         // Create recycler view.
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview2);

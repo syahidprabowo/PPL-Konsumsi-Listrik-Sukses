@@ -29,12 +29,24 @@
                     android:layout_marginTop="5dp"></android.support.v7.widget.RecyclerView>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="?attr/colorPrimary"
+                    android:theme="?attr/actionBarTheme"
+                    android:text="HARGA TOTAL :"
+                    android:textAlignment="center"
+                    android:paddingTop="5dp"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/white"
+                    />
+                <TextView
                     android:id="@+id/hargatotal"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="?attr/colorPrimary"
                     android:theme="?attr/actionBarTheme"
-                    android:text="JUMLAH = Rp. 200.000"
+                    android:text=""
                     android:textAlignment="center"
                     android:paddingTop="5dp"
                     android:textStyle="bold"

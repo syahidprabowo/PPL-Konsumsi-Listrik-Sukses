@@ -11,22 +11,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
     public static final int WORD_EDIT = 1;
     public static final int WORD_ADD = -1;
-
     private RecyclerView mRecyclerView;
     private ListBarangAdapter mAdapter;
-
-
-
     private ListBarangOpenHelper mDB;
 
     @Override
@@ -35,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         mDB = new ListBarangOpenHelper(this);
-
         // Create recycler view.
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         // Create an mAdapter and supply the data to be displayed.
@@ -47,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
         // Give the recycler view a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayToast(getString(R.string.tambah_barang));
+                Intent intent = new Intent(getBaseContext(), EditListBarang.class);
+                startActivityForResult(intent, WORD_EDIT);
+            }
+        });
     }
 
     public void displayToast(String message) {
@@ -58,43 +59,30 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle app bar item clicks here. The app bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.tambah_barang:
-                displayToast(getString(R.string.tambah_barang));
-                Intent intent = new Intent(getBaseContext(), EditListBarang.class);
-                startActivityForResult(intent, WORD_EDIT);
-                return true;
-            default:
-                // Do nothing
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == WORD_EDIT) {
             if (resultCode == RESULT_OK) {
                 String word = data.getStringExtra(EditListBarang.EXTRA_REPLY);
-                int watt = Integer.valueOf(data.getStringExtra(EditListBarang.EXTRA_REPLY_WATT));
-                int durasi = Integer.valueOf(data.getStringExtra(EditListBarang.EXTRA_REPLY_DURASI));
+
+                Integer watt = Integer.valueOf(data.getStringExtra(EditListBarang.EXTRA_REPLY_WATT));
+                Integer durasi = Integer.valueOf(data.getStringExtra(EditListBarang.EXTRA_REPLY_DURASI));
+                Integer jumlah = Integer.valueOf(data.getStringExtra(EditListBarang.EXTRA_REPLY_JUMLAH));
                 // Update the database
                 if (!TextUtils.isEmpty(word)) {
                     int id = data.getIntExtra(ListBarangAdapter.EXTRA_ID, -99);
                     if (id == WORD_ADD) {
-                        mDB.insert(word, watt, durasi);
+                        mDB.insert(word, watt, durasi, jumlah);
                     }
                     else if (id >= 0) {
-                        mDB.update(id, word, watt, durasi);
+                        mDB.update(id, word, watt, durasi, jumlah);
                     }
-                // Update the UI
+                    // Update the UI
                     mAdapter.notifyDataSetChanged();
+
                 } else {
+
                     Toast.makeText(
                             getApplicationContext(),
                             R.string.empty_not_saved,
@@ -103,11 +91,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
-
 
 }

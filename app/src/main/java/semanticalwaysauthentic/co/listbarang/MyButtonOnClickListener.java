@@ -28,18 +28,22 @@ public class MyButtonOnClickListener implements View.OnClickListener {
     String word;
     int watt;
     int durasi;
+    int jumlah;
 
     String Swatt;
     String Sdursai;
+    String Sjumlah;
 
-    public MyButtonOnClickListener(int id, String word, int watt, int durasi) {
+    public MyButtonOnClickListener(int id, String word, int watt, int durasi, int jumlah) {
         this.id = id;
         this.word = word;
         this.watt = watt;
         this.durasi = durasi;
+        this.jumlah = jumlah;
 
         this.Swatt = String.valueOf(watt);
         this.Sdursai = String.valueOf(durasi);
+        this.Sjumlah = String.valueOf(jumlah);
     }
 
     public void onClick(View v) {
